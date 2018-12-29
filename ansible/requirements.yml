@@ -1,0 +1,9 @@
+---
+- src: https://github.com/rhythmictech/ansible-centos7-cis.git
+  scm: git
+  version: devel
+  name: ansible-centos7-cis
+- src: https://github.com/dj-wasabi/ansible-ossec-agent.git
+  scm: git
+  version: 0.1.0
+  name: dj-wasabi.ossec-agent

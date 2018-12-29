@@ -1,0 +1,23 @@
+---
+
+- name: ensure duo packages are installed
+  yum: name=duo_unix state=present
+  when: duo_enabled
+  tags: ['duo']
+
+- name: place duo config
+  template:
+    src: etc.duo.login_duo.conf.j2
+    dest: /etc/duo/login_duo.conf
+    owner: sshd
+    mode: 0600
+  when: duo_enabled
+  tags: ['duo']
+
+# - name: Require duo push on ssh
+#   lineinfile:
+#     dest: /etc/ssh/sshd_config
+#     regexp: '^ForceCommand'
+#     line: 'ForceCommand /usr/sbin/login_duo'
+#   notify: restart sshd
+#   tags: ['duo']

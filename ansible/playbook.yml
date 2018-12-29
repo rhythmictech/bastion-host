@@ -1,0 +1,15 @@
+
+---
+- hosts: localhost
+  connection: local
+  gather_facts: true
+  become: yes
+  include_vars:
+    file: /tmp/local_config.json
+  roles:
+    - base
+    - duo
+  tasks:
+  - include_role:
+      name: dj-wasabi.ossec-agent
+    when: "ossec_enabled"

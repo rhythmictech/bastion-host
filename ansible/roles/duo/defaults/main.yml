@@ -1,0 +1,9 @@
+---
+
+duo_enabled: false
+
+duo_ikey:
+duo_skey:
+duo_host:
+
+duo_failmode: secure

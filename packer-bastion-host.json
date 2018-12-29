@@ -1,0 +1,52 @@
+{
+  "description": "Bastion host base image",
+  "variables": {
+    "region": "us-east-1",
+    "root_device_size": "8",
+    "fs_type": "xfs"
+  },
+  "builders": [
+      {
+        "type": "amazon-ebs",
+        "access_key": "{{user `aws_access_key`}}",
+        "secret_key": "{{user `aws_secret_key`}}",
+        "ami_name": "bastion-{{isotime \"2006-01-02-030405\" | clean_ami_name}}",
+        "ami_description": "Bastion Host (customized) {{timestamp}}",
+        "source_ami_filter": {
+          "filters": {
+            "virtualization-type": "hvm",
+            "name": "{{ user `aws_ami_filter_name` }}",
+            "root-device-type": "ebs"
+          },
+          "owners": ["{{ user `aws_ami_filter_owner` }}"],
+          "most_recent": true
+        },
+        "instance_type": "t2.micro",
+        "ssh_username": "ec2-user"
+      }
+  ],
+
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "local-config.json",
+      "destination": "/tmp"
+    },
+    {
+        "type": "ansible-local",
+        "playbook_file": "ansible/playbook.yml",
+        "role_paths": [
+            "ansible/roles"
+        ],
+        "playbook_dir": "ansible",
+        "galaxy_file": "ansible/requirements.yml"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "/bin/rm -f /tmp/local-config.json"
+      ]
+    }
+  ]
+
+}
