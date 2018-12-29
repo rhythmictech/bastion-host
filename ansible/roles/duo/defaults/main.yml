@@ -1,6 +1,7 @@
 ---
 
-duo_enabled: false
+# By default, install the duo yum repo.
+duo_install_repo: true
 
 duo_ikey:
 duo_skey:

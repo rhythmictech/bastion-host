@@ -3,8 +3,10 @@
 
   "aws_ami_filter_owner": "<AWS Account containing base AMI template>",
   "aws_ami_filter_name": "<Prefix of AMI to search for latest build of>",
+  "aws_ami_build_subnet": "<subnet id where ami will be built>",
 
   "duo_enabled": "false",
+  "duo_install_repo": "true",
   "duo_ikey": "<Duo provided>",
   "duo_skey": "<Duo provided>",
   "duo_host": "<Duo provided>"

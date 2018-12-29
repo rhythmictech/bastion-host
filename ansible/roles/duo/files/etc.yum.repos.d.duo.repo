@@ -1,0 +1,6 @@
+[duosecurity]
+name=Duo Security Repository
+baseurl=http://pkg.duosecurity.com/CentOS/$releasever/$basearch
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-duosecurity

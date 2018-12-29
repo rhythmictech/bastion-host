@@ -1,8 +1,34 @@
 ---
 
+- name: copy rpm gpg keys
+  copy:
+    src: etc.pki.rpm-gpg.RPM-GPG-KEY-duosecurity
+    dest: /etc/pki/rpm-gpg/RPM-GPG-KEY-duosecurity
+    owner: root
+    group: root
+    mode: 0644
+  when: duo_install_repo
+  tags: ['duo']
+
+- name: install rpm gpg keys
+  rpm_key:
+    state: present
+    key: /etc/pki/rpm-gpg/RPM-GPG-KEY-duosecurity
+  when: duo_install_repo
+  tags: ['duo']
+
+- name: install yum repos
+  copy:
+    src: etc.yum.repos.d.duo.repo
+    dest: /etc/yum.repos.d/duo.repo
+    owner: root
+    group: root
+    mode: 0644
+  when: duo_install_repo
+  tags: ['duo']
+
 - name: ensure duo packages are installed
   yum: name=duo_unix state=present
-  when: duo_enabled
   tags: ['duo']
 
 - name: place duo config
@@ -11,7 +37,6 @@
     dest: /etc/duo/login_duo.conf
     owner: sshd
     mode: 0600
-  when: duo_enabled
   tags: ['duo']
 
 # - name: Require duo push on ssh

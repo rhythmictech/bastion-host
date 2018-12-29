@@ -12,6 +12,8 @@
         "secret_key": "{{user `aws_secret_key`}}",
         "ami_name": "bastion-{{isotime \"2006-01-02-030405\" | clean_ami_name}}",
         "ami_description": "Bastion Host (customized) {{timestamp}}",
+        "region": "{{ user `region` }}",
+        "subnet_id": "{{ user `aws_ami_build_subnet` }}",
         "source_ami_filter": {
           "filters": {
             "virtualization-type": "hvm",
@@ -29,17 +31,25 @@
   "provisioners": [
     {
       "type": "file",
-      "source": "local-config.json",
-      "destination": "/tmp"
+      "source": "local_config.json",
+      "destination": "/tmp/local_config.json"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "/bin/mkdir -p ~/ansible"
+      ]
     },
     {
         "type": "ansible-local",
+        "galaxy_file": "ansible/requirements.yml",
+        "playbook_dir": "ansible",
         "playbook_file": "ansible/playbook.yml",
         "role_paths": [
             "ansible/roles"
         ],
-        "playbook_dir": "ansible",
-        "galaxy_file": "ansible/requirements.yml"
+        "staging_directory": "~/ansible"
+
     },
     {
       "type": "shell",
